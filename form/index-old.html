@@ -1,0 +1,649 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Rakhis - Tiny Traditions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; font-family: 'Volkhov', serif; background-color: #fffaf8; color: #333; }
+
+    .title-banner { 
+        background-color: #52B2B7; 
+        min-height: 10vh; 
+        display:flex; 
+        align-items:center; 
+        justify-content:flex-start; 
+        gap:12px; 
+        padding:10px 16px; 
+        color:white; 
+        flex-wrap: wrap;
+        position: relative;
+    }
+    .title-banner::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        transition: background 0.3s ease;
+        pointer-events: none;
+    }
+    .title-banner:hover::after {
+        background: rgba(0,0,0,0.18);
+    }
+    .banner-logo { width:60px; height:60px; border-radius:8px; object-fit:cover; flex-shrink:0; }
+    .banner-text { font-size:clamp(20px, 5vw, 28px); font-weight:700; word-break: break-word; }
+
+    .nav-bar { 
+        padding: 12px 16px; 
+        text-align: center; 
+        background: #E6F9FF;
+        border-bottom: 1px solid #c0efff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+    .back-btn { 
+        color: #334155;
+        text-decoration: none; 
+        font-weight: bold; 
+        font-size: clamp(0.9rem, 3vw, 1.2rem); 
+        display: inline-block; 
+        padding: 6px 12px; 
+        transition: all 0.3s ease; 
+    }
+    .back-btn:hover { 
+        color: #52B2B7;
+        background-color: rgba(4, 217, 255, 0.15); 
+        border-radius: 6px; 
+    }
+
+    .form-container { 
+        max-width: 700px; 
+        margin: 30px auto; 
+        padding: 30px 20px; 
+        background: white; 
+        border-radius: 12px; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    }
+    .form-title { text-align: center; color: #52B2B7; font-size: 2rem; margin-bottom: 10px; }
+    .form-subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1rem; }
+
+    .cart-summary { 
+        background: #E0F8FF; 
+        border-left: 5px solid #52B2B7; 
+        padding: 20px; 
+        border-radius: 8px; 
+        margin-bottom: 40px; 
+    }
+    .cart-summary h4 { margin-top: 0; color: #52B2B7; font-size: 1.4rem; }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        font-size: 1rem;
+    }
+    .cart-table th, .cart-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    .cart-table th {
+        background: #f0f8ff;
+        color: #333;
+        font-weight: bold;
+    }
+    .cart-table td:nth-child(3), .cart-table td:nth-child(4) {
+        font-weight: bold;
+        color: #27ae60;
+        text-align: right;
+    }
+    .cart-table th:nth-child(3), .cart-table th:nth-child(4) {
+        text-align: right;
+    }
+
+    .cart-qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: flex-end;
+    }
+
+    .cart-qty-btn,
+    .cart-remove-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cart-qty-btn {
+        background-color: #e0e0e0;
+        color: #333;
+    }
+
+    .cart-qty-btn:hover {
+        background-color: #52B2B7;
+        color: white;
+    }
+
+    .cart-remove-btn {
+        background-color: #dc3545;
+        color: white;
+        font-size: 1.25rem;     /* slightly larger × symbol inside same-size box */
+    }
+
+    .cart-remove-btn:hover {
+        background-color: #c82333;
+    }
+
+    .cart-qty-display {
+        width: 36px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.05rem;
+    }
+
+    .cart-total {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid #52B2B7;
+        color: #27ae60;
+    }
+
+    .empty-cart { text-align: center; color: #777; font-size: 1.2rem; padding: 20px; }
+
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: bold; margin-bottom: 6px; color: #333; font-size: 0.95rem; }
+    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: 'Volkhov', serif; font-size: 1rem; transition: border-color 0.3s; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #52B2B7; box-shadow: 0 0 4px rgba(4, 217, 255, 0.3); }
+    textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .submit-btn { 
+        background-color: #52B2B7; 
+        color: white; 
+        padding: 14px 28px; 
+        border: none; 
+        border-radius: 25px; 
+        font-weight: bold; 
+        font-size: 1rem; 
+        cursor: pointer; 
+        transition: transform 0.3s ease; 
+        width: 100%;  
+    }
+    .submit-btn:hover { transform: scale(1.02); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .success-message { display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 6px; margin-top: 15px; text-align: center; }
+    .error-message { display: none; background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin-top: 15px; }
+
+    .required { color: #52B2B7; }
+
+    /* WhatsApp button */
+    #whatsapp-chat-button { transition: 0.3s ease; }
+    #whatsapp-chat-button:hover { transform: scale(1.1); }
+    #whatsapp-chat-button a:hover img { filter: brightness(1.2); }
+
+    /* ──────────────────────────────────────────────── */
+    /* MOBILE STYLES – stacked cards + sticky bar */
+    @media (max-width: 600px) {
+        .form-container { margin: 20px 15px; padding: 20px; }
+        .form-row { grid-template-columns: 1fr; }
+        .cart-table th, .cart-table td { padding: 10px; font-size: 0.95rem; }
+
+        .cart-table {
+            border: 0;
+        }
+        .cart-table thead { display: none; }
+        .cart-table tr {
+            display: block;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .cart-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+        }
+        .cart-table td:last-child {
+            border-bottom: none;
+            text-align: center;
+            padding: 12px 14px;
+        }
+        .cart-table td:before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: #444;
+            flex: 0 0 45%;
+            text-align: left;
+        }
+
+        /* Make buttons slightly more touch-friendly on mobile */
+        .cart-qty-btn,
+        .cart-remove-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
+        }
+
+        .cart-qty-display {
+            width: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Sticky bottom bar */
+        .sticky-cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 2px solid #52B2B7;
+            padding: 12px 20px;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        .sticky-cart-bar .total {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .sticky-cart-bar .place-order-btn {
+            background: #52B2B7;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .sticky-cart-bar .place-order-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            background: #a0d0d4;
+        }
+
+        /* Give form some bottom padding so sticky bar doesn't cover content */
+        body { padding-bottom: 80px; }
+    }
+
+    @media (min-width: 601px) {
+        .sticky-cart-bar { display: none !important; }
+    }
+    /* ──────────────────────────────────────────────── */
+</style>
+</head>
+<body>
+
+    <div class="title-banner">
+        <img src="../images/logo.png" alt="Tiny Traditions Logo" class="banner-logo">
+        <div class="banner-text">Tiny Traditions</div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="/" class="back-btn">← Back to Homepage</a>
+    </div>
+
+    <div class="form-container">
+        <h1 class="form-title">Your Order</h1>
+        <p class="form-subtitle">Fill in your details to complete your order</p>
+        <div style="text-align: center; margin: 25px 0 45px;">
+    <a href="/choose/" class="back-btn">
+        ← Back to Shopping
+    </a>
+</div>
+        
+        <div id="cartSummaryBox" class="cart-summary">
+            <h4>📦 Your Cart</h4>
+            <div id="cartEmptyMessage" class="empty-cart" style="display:none;">
+    Your cart is empty. 
+    <a href="/choose/" class="back-btn">← Go back and add items</a>
+</div>
+
+            <table class="cart-table" id="cartTable">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="cartItemsBody"></tbody>
+            </table>
+
+            <div class="cart-total" id="cartTotal"></div>
+        </div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="name">Name <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address <span class="required">*</span></label>
+                <textarea id="address" name="address" required></textarea>
+            </div>
+
+            <input type="hidden" id="rakhi" name="rakhi" />
+
+            <div class="form-group">
+                <label for="message">Special Message (Optional)</label>
+                <textarea id="message" name="message" placeholder="Any special instructions or message..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
+            
+            <div class="success-message" id="successMessage">
+                ✓ Order received! We'll contact you soon.
+            </div>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+    </div>
+
+    <!-- Sticky mobile bar -->
+    <div class="sticky-cart-bar" id="stickyCartBar" style="display:none;">
+        <div class="total" id="stickyTotal">Grand Total: $0.00</div>
+        <button class="place-order-btn" id="stickySubmitBtn" disabled>Place Order</button>
+    </div>
+
+    <!-- WhatsApp Chat Button -->
+    <div id="whatsapp-chat-button" style="position: fixed; bottom: 90px; right: 20px; z-index: 1000; text-align: center;">
+      <a href="https://wa.me/5125604283" target="_blank" style="display:inline-block;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat on WhatsApp" style="width: 50px; height: 50px; display:block;">
+      </a>
+      <div style="margin-top: 5px; font-size: 14px; color: #333; font-weight: 600;">Chat with us</div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    const itemPrices = {
+        "Royal Marigold": 3.50,
+        "Infinite Vision": 2.00,
+        "Ethereal Wing": 2.50,
+        "Aura Gold": 2.50,
+        "Golden Dragonfly": 2.50,
+        "Mystic Monarch": 2.50,
+        "Blooming Bond": 3.50,
+        "Amber Ganesha": 3.50
+    };
+
+    // ─── Form data persistence ───────────────────────────────────────────────
+    function saveFormData() {
+        const data = {
+            name:    document.getElementById('name')?.value.trim()    || '',
+            email:   document.getElementById('email')?.value.trim()   || '',
+            phone:   document.getElementById('phone')?.value.trim()   || '',
+            address: document.getElementById('address')?.value.trim() || '',
+            message: document.getElementById('message')?.value.trim() || ''
+        };
+        sessionStorage.setItem('checkoutFormData', JSON.stringify(data));
+    }
+
+    function loadFormData() {
+        const saved = sessionStorage.getItem('checkoutFormData');
+        if (!saved) return;
+
+        try {
+            const data = JSON.parse(saved);
+            const fields = ['name', 'email', 'phone', 'address', 'message'];
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && data[id] !== undefined) {
+                    el.value = data[id];
+                    // Trigger input event so any real-time validation updates
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            });
+        } catch (e) {
+            console.warn('Failed to restore form data:', e);
+        }
+    }
+
+    function saveCart() {
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        const summary = cart.map(i => `${i.item} x${i.quantity}`).join('; ');
+        document.getElementById('rakhi').value = summary || '';
+    }
+
+    function renderCart() {
+        const tbody       = document.getElementById('cartItemsBody');
+        const totalEl     = document.getElementById('cartTotal');
+        const emptyMsg    = document.getElementById('cartEmptyMessage');
+        const summaryBox  = document.getElementById('cartSummaryBox');
+
+        saveCart();
+
+        if (cart.length === 0) {
+            emptyMsg.style.display = 'block';
+            summaryBox.style.display = 'block';
+            tbody.innerHTML = '';
+            totalEl.textContent = '';
+            updateStickyBar();
+            return;
+        }
+
+        emptyMsg.style.display = 'none';
+        summaryBox.style.display = 'block';
+
+        let total = 0;
+        let rows = '';
+
+        cart.forEach((item, index) => {
+            const price = itemPrices[item.item] || 0;
+            const subtotal = price * item.quantity;
+            total += subtotal;
+
+            const isSingle = item.quantity === 1;
+            const actionBtnClass = isSingle ? 'cart-remove-btn' : 'cart-qty-btn qty-minus-cart';
+            const actionLabel    = isSingle ? '×' : '−';
+            const actionTitle    = isSingle ? 'Remove item' : 'Decrease quantity';
+
+            rows += `
+                <tr>
+                    <td data-label="Item">${item.item}</td>
+                    <td data-label="Quantity">
+                        <div class="cart-qty-controls">
+                            <button class="${actionBtnClass}" 
+                                    data-index="${index}" 
+                                    title="${actionTitle}"
+                                    aria-label="${actionTitle}">
+                                ${actionLabel}
+                            </button>
+                            <span class="cart-qty-display">${item.quantity}</span>
+                            <button class="cart-qty-btn qty-plus-cart" 
+                                    data-index="${index}"
+                                    aria-label="Increase quantity">
+                                +
+                            </button>
+                        </div>
+                    </td>
+                    <td data-label="Price">$${price.toFixed(2)}</td>
+                    <td data-label="Subtotal">$${subtotal.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = rows;
+        const grandTotalText = `Grand Total: $${total.toFixed(2)}`;
+        totalEl.textContent = grandTotalText;
+
+        updateStickyBar(grandTotalText);
+
+        // Re-attach listeners
+        document.querySelectorAll('.qty-plus-cart').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        document.querySelectorAll('.qty-plus-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const i = Number(btn.dataset.index);
+                if (i >= 0 && i < cart.length) {
+                    cart[i].quantity++;
+                    renderCart();
+                }
+            });
+        });
+
+        document.querySelectorAll('.qty-minus-cart, .cart-remove-btn').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        document.querySelectorAll('.qty-minus-cart, .cart-remove-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const i = Number(btn.dataset.index);
+                if (i < 0 || i >= cart.length) return;
+
+                if (cart[i].quantity > 1) {
+                    cart[i].quantity--;
+                } else {
+                    cart.splice(i, 1);
+                }
+                renderCart();
+            });
+        });
+    }
+
+    // Sticky bar logic
+    function updateStickyBar(totalText = null) {
+        const stickyBar = document.getElementById('stickyCartBar');
+        const stickyTotal = document.getElementById('stickyTotal');
+        const stickyBtn = document.getElementById('stickySubmitBtn');
+
+        if (!stickyBar || !stickyTotal || !stickyBtn) return;
+
+        const isMobile = window.innerWidth <= 600;
+        stickyBar.style.display = isMobile ? 'flex' : 'none';
+
+        if (!isMobile) return;
+
+        if (totalText) {
+            stickyTotal.textContent = totalText;
+        }
+
+        const name    = document.getElementById('name')?.value.trim();
+        const email   = document.getElementById('email')?.value.trim();
+        const phone   = document.getElementById('phone')?.value.trim();
+        const address = document.getElementById('address')?.value.trim();
+
+        const isValid = name && email && phone && address;
+        stickyBtn.disabled = !isValid;
+    }
+
+    // ─── Event listeners ─────────────────────────────────────────────────────
+    ['name', 'email', 'phone', 'address', 'message'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            // Update sticky bar on change
+            el.addEventListener('input', () => {
+                updateStickyBar();
+                saveFormData();           // save form data live
+            });
+            el.addEventListener('change', () => {
+                updateStickyBar();
+                saveFormData();
+            });
+        }
+    });
+
+    document.getElementById('stickySubmitBtn')?.addEventListener('click', function(e) {
+        if (this.disabled) {
+            e.preventDefault();
+            const firstEmpty = document.querySelector('#orderForm input[required]:invalid, #orderForm textarea[required]:invalid');
+            if (firstEmpty) {
+                firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstEmpty.focus();
+            }
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        renderCart();
+    });
+
+    // Form submission (add clear on success if needed)
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        const formData = new FormData(this);
+        const params = new URLSearchParams();
+        for (const [k, v] of formData) {
+            params.append(k, v);
+        }
+
+        fetch('https://script.google.com/macros/s/AKfycby--Tq0LeCi83yJ7dpIkj5kOUZ6LhlpOYqcucaGmCHh2A1Ooz2k_q3jkuxqjRbVjOLRew/exec', {
+            method: 'POST',
+            body: params
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.text();
+        })
+        .then(text => {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            this.reset();
+            sessionStorage.removeItem('cart');
+            sessionStorage.removeItem('checkoutFormData'); // clear saved form data after success
+            renderCart();
+            setTimeout(() => {
+                window.location.href = '/success/';
+            }, 2000);
+        })
+        .catch(error => {
+            document.getElementById('errorMessage').textContent = 'Error: ' + error.message;
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = 'Place Order';
+        });
+    });
+
+    // ─── Initial actions ─────────────────────────────────────────────────────
+    renderCart();
+    loadFormData();           // ← restores previous form input values
+    updateStickyBar();        // initial sticky check
+});
+</script>
+</body>
+</html>

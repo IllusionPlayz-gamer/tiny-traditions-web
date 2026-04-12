@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Tiny Traditions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Volkhov', serif; background-color: #fffaf8; color: #333; }
+        
+        /* Dynamic Theme Colors */
+        :root { --primary-color: #52B2B7; --bg-secondary: #E6F9FF; }
+        body.wa-theme { background-color: #f7fcf9; }
+        body.wa-theme .title-banner { background-color: #25D366; }
+        body.wa-theme .nav-bar { background: #e8f9ee; }
+        body.wa-theme .cart-summary { background: #f0fff4; border-left-color: #25D366; }
+
+        .title-banner { background-color: var(--primary-color); padding: 15px 16px; color: white; display: flex; align-items: center; gap: 12px; }
+        .banner-logo { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+        .banner-text { font-size: 1.4rem; font-weight: 700; }
+        
+        .nav-bar { padding: 12px; background: var(--bg-secondary); text-align: center; }
+        .back-btn { color: #334155; text-decoration: none; font-weight: bold; }
+        
+        .form-container { max-width: 750px; margin: 20px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .cart-summary { background: #E0F8FF; border-left: 5px solid var(--primary-color); padding: 15px; border-radius: 10px; margin-bottom: 25px; }
+        
+        .cart-table { width: 100%; border-collapse: collapse; }
+        .cart-table th { text-align: left; padding: 10px; font-size: 0.85rem; color: #444; border-bottom: 2px solid #eee; }
+        .cart-table td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+        
+        @media (max-width: 500px) {
+            .cart-table thead { display: none; }
+            .cart-table tr { display: block; padding: 12px 0; border-bottom: 2px solid var(--primary-color); }
+            .cart-table td { display: flex; justify-content: space-between; align-items: center; border: none; padding: 6px 0; }
+            .cart-table td::before { content: attr(data-label); font-weight: bold; font-size: 0.75rem; }
+        }
+
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn, .remove-btn { width: 34px; height: 34px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .qty-btn { background: #e0e0e0; }
+        .remove-btn { background: #ff4757; color: white; }
+        .cart-total { font-size: 1.4rem; font-weight: bold; text-align: right; margin-top: 15px; }
+
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-weight: bold; margin-bottom: 6px; }
+        input, textarea { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
+        
+        .submit-btn { background: var(--primary-color); color: white; padding: 18px; border: none; border-radius: 50px; font-weight: bold; font-size: 1.2rem; width: 100%; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .wa-btn-color { background: #25D366 !important; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="title-banner"><img src="../images/logo.png" class="banner-logo"><div class="banner-text">Tiny Traditions</div></div>
+    <div class="nav-bar"><a href="/choose/" class="back-btn">← Back to Shop</a></div>
+
+    <div class="form-container">
+        <div class="cart-summary">
+            <h4 id="summaryTitle">🛒 Order Details</h4>
+            <table class="cart-table">
+                <thead><tr><th>Item</th><th>Quantity</th><th>Price</th><th>Subtotal</th></tr></thead>
+                <tbody id="cartItemsBody"></tbody>
+            </table>
+            <div class="cart-total" id="cartTotal">Total: $0.00</div>
+        </div>
+
+        <form id="unifiedForm">
+            <div id="emailFields">
+                <div class="form-group"><label>Name*</label><input type="text" name="name" id="userName"></div>
+                <div class="form-group"><label>Email*</label><input type="email" name="email" id="userEmail"></div>
+                <div class="form-group"><label>Address*</label><textarea name="address" id="userAddress" rows="3" placeholder="Full shipping address..."></textarea></div>
+            </div>
+
+            <div class="form-group">
+                <label id="notesLabel">Notes</label>
+                <textarea name="message" id="notes" rows="2" placeholder="Any special instructions?"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">Place Order</button>
+        </form>
+    </div>
+
+<script>
+const SHEET_ID = '1qgRy18Z6cQw6HREFFHoBw226iNQMRTAPPNm7XswpD0c';
+const whatsappNum = "15125604283";
+const emailScriptURL = "https://script.google.com/macros/s/AKfycbwjGvTwRktxgAKE2OXfW4G3_MuLM-CikYBSVde6YLZq-BTpxdFEHILPEWTVpFPhZo6c/exec";
+const waLogScriptURL = "https://script.google.com/macros/s/AKfycbzH3NsBBPx9g6wlLn9cMugqM56aqjoUVjmA_D8TrOgj_cwR5HRm0cRL07WVPV3eIs6U_w/exec";
+
+const params = new URLSearchParams(window.location.search);
+const method = params.get('method') || 'email'; // Default to email
+
+let globalInventory = {};
+let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+function setupPage() {
+    if (method === 'wa') {
+        document.body.classList.add('wa-theme');
+        document.getElementById('summaryTitle').innerText = '🛒 Your WhatsApp Order';
+        document.getElementById('emailFields').classList.add('hidden');
+        document.getElementById('submitBtn').classList.add('wa-btn-color');
+        document.getElementById('submitBtn').innerText = 'Send via WhatsApp';
+        document.getElementById('notesLabel').innerText = 'Notes or Special Instructions';
+    }
+}
+
+async function loadInventory() {
+    try {
+        const res = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Website%20Catalog`);
+        const text = await res.text();
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        json.table.rows.forEach(r => {
+            if(r.c[2]) globalInventory[r.c[2].v] = parseInt(r.c[5] ? r.c[5].v : 0);
+        });
+        render();
+    } catch(e) { render(); }
+}
+
+function render() {
+    const body = document.getElementById('cartItemsBody');
+    let total = 0;
+
+    if (cart.length === 0) {
+        body.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px;">Your cart is empty.</td></tr>';
+        document.getElementById('cartTotal').innerText = `Total: $0.00`;
+        document.getElementById('submitBtn').disabled = true;
+        return;
+    }
+
+    body.innerHTML = cart.map((item, i) => {
+        const sub = item.price * item.quantity;
+        total += sub;
+        const stockLimit = globalInventory[item.item] || 99;
+        
+        return `<tr>
+            <td data-label="Item"><b>${item.item}</b></td>
+            <td data-label="Quantity">
+                <div class="qty-controls">
+                    <button type="button" class="${item.quantity===1?'remove-btn':'qty-btn'}" onclick="update(${i},-1)">${item.quantity===1?'×':'−'}</button>
+                    <span>${item.quantity}</span>
+                    <button type="button" class="qty-btn" onclick="update(${i},1)" ${item.quantity >= stockLimit ? 'disabled' : ''}>+</button>
+                </div>
+            </td>
+            <td data-label="Price">$${item.price.toFixed(2)}</td>
+            <td data-label="Subtotal">$${sub.toFixed(2)}</td>
+        </tr>`;
+    }).join('');
+    document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+}
+
+window.update = (i, d) => {
+    cart[i].quantity += d;
+    if(cart[i].quantity < 1) cart.splice(i, 1);
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    render();
+};
+
+document.getElementById('unifiedForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const notes = document.getElementById('notes').value || "None";
+    const totalText = document.getElementById('cartTotal').innerText;
+
+    // --- GOOGLE ANALYTICS PRO MOVE ---
+    if (typeof gtag === 'function') {
+        gtag('event', 'begin_checkout', {
+            'checkout_method': method,
+            'value': parseFloat(totalText.replace(/[^0-9.]/g, '')),
+            'currency': 'USD',
+            'items': cart.map(i => ({
+                'item_name': i.item,
+                'quantity': i.quantity,
+                'price': i.price
+            }))
+        });
+    }
+    // ---------------------------------
+
+    if (method === 'email') {
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+        const itemString = cart.map(i => `${i.item}:${i.quantity}`).join(", ");
+        
+        const fd = new FormData();
+        fd.append('name', document.getElementById('userName').value);
+        fd.append('email', document.getElementById('userEmail').value);
+        fd.append('address', document.getElementById('userAddress').value);
+        fd.append('message', notes);
+        fd.append('rakhi', itemString);
+        fd.append('total', totalText);
+
+        try {
+            await fetch(emailScriptURL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(fd) });
+            alert("Order placed! Check your email.");
+            sessionStorage.clear();
+            window.location.href = "/choose/";
+        } catch(err) { 
+            alert("Error! Please use WhatsApp."); 
+            btn.disabled = false; 
+            btn.innerText = "Place Order";
+        }
+
+    } else {
+        // WhatsApp Logic
+        const itemsMsg = cart.map(i => `• *${i.item}*\n  $${i.price.toFixed(2)} (Qty: ${i.quantity})`).join("\n\n");
+        const fullMsg = `✨ *NEW ORDER* ✨\n\n${itemsMsg}\n\n💰 *${totalText}*\n\n📝 *MESSAGE:* ${notes}`;
+        
+        // Log to sheet first
+        fetch(waLogScriptURL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify({ cart: cart, total: totalText, notes: notes }) 
+        });
+
+        window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+    }
+};
+
+setupPage();
+loadInventory();
+</script>
+</body>
+</html>

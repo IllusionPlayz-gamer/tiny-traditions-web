@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Traditions Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+        font-family: 'Volkhov', serif; 
+        background-color: #fffaf8; 
+        margin: 0; 
+        padding-bottom: 100px;
+        overflow-x: hidden; 
+    }
+
+    .nav-bar { 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        padding: 25px 20px;
+        background: #E6F9FF;
+        border-bottom: 2px solid #c0efff;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        min-height: 110px;
+    }
+
+    .nav-btn-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        width: 100%;
+    }
+
+    .nav-logo img {
+        height: 85px;
+        width: auto;
+        display: block;
+        image-rendering: -webkit-optimize-contrast; 
+        transition: transform 0.3s ease;
+    }
+
+    .nav-logo:hover img {
+        transform: scale(1.08);
+    }
+
+    .order-now-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background-color: #52B2B7;
+        color: white !important;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(82,178,183,0.3);
+        transition: all 0.3s ease;
+    }
+
+    .order-now-nav:hover {
+        transform: scale(1.05);
+        background-color: #3a8a8f;
+    }
+
+    .checkout-wrapper {
+        position: relative;
+        display: flex;
+    }
+
+    .cart-total {
+        background: white;
+        color: #27ae60;
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        transition: transform 0.4s ease;
+    }
+
+    .cart-total.pulse {
+        animation: pulse 0.7s ease;
+    }
+
+    @keyframes pulse {
+        0%   { transform: scale(1); }
+        40%  { transform: scale(1.3); }
+        100% { transform: scale(1); }
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: white;
+        color: #52B2B7;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: bold;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(4, 217, 255, 0.4);
+        border: 2px solid #52B2B7;
+        z-index: 10;
+    }
+
+    .flying-price {
+        position: fixed;
+        pointer-events: none;
+        color: #27ae60;
+        font-weight: bold;
+        font-size: 1.2rem;
+        background: rgba(255,255,255,0.95);
+        padding: 8px 16px;
+        border-radius: 999px;
+        box-shadow: 0 6px 16px rgba(39,174,96,0.4);
+        z-index: 9999;
+        white-space: nowrap;
+        opacity: 0;
+        transform: scale(0.5) translateY(20px);
+        transition: all 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    @keyframes whoosh-improved {
+        to {
+            opacity: 0;
+            transform: scale(0.7) translate(var(--dx), var(--dy));
+        }
+    }
+
+    .main-content { padding: 20px; }
+
+    .item-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px; 
+    }
+
+    .item-card { 
+        border: 1px solid #eee; 
+        border-radius: 16px; 
+        padding: 16px; 
+        background: white;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+        height: auto;
+    }
+
+    .item-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .img-square { 
+        width: 180px;
+        height: 140px;
+        flex-shrink: 0;
+        background-color: #E0F8FF; 
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .img-square img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 45%; /* down shift - hanging parts visible */
+    }
+
+    .right-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    h3 { 
+        color: #333; 
+        margin: 0 0 4px 0;
+        font-size: 1.25rem; 
+        font-weight: 600;
+    }
+
+    .price {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #27ae60;
+        background: #e8f5e9;             
+        padding: 6px 14px;
+        border-radius: 30px;             
+        display: inline-block;
+        box-shadow: 0 2px 6px rgba(39, 174, 96, 0.15);
+        margin: 0;
+        align-self: flex-start;
+        transition: all 0.4s ease;
+    }
+
+    .price.animate {
+        animation: pricePop 0.6s ease-out;
+        background: #d4edda;
+        box-shadow: 0 0 20px rgba(39,174,96,0.5);
+    }
+
+    @keyframes pricePop {
+        0%   { transform: scale(1);   }
+        45%  { transform: scale(1.28); }
+        70%  { transform: scale(0.94); }
+        100% { transform: scale(1);   }
+    }
+
+    .add-btn {
+        background-color: #52B2B7;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        padding: 10px 24px;
+        align-self: flex-start;
+    }
+
+    .add-btn:hover {
+        transform: scale(1.05);
+        background-color: #3a8a8f;
+    }
+
+    .sticky-cart-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 2px solid #52B2B7;
+        padding: 12px 20px;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+
+    .sticky-cart-bar .total {
+        font-weight: bold;
+        color: #27ae60;
+    }
+
+    .sticky-cart-bar .place-order-btn {
+        background: #52B2B7;
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .sticky-cart-bar .place-order-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        background: #a0d0d4;
+    }
+
+    #whatsapp-chat-button {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        z-index: 1000;
+        text-align: center;
+        transition: 0.3s ease;
+    }
+
+    #whatsapp-chat-button:hover { transform: scale(1.1); }
+    #whatsapp-chat-button a:hover img { filter: brightness(1.2); }
+
+    @media (max-width: 768px) {
+        .main-content { padding: 12px; }
+        .item-grid { grid-template-columns: 1fr; gap: 20px; }
+        .item-card { padding: 14px; gap: 16px; }
+        .img-square { 
+            width: 160px;
+            height: 120px;
+        }
+        .img-square img {
+            object-position: center 45%;
+        }
+        h3 { font-size: 1.15rem; }
+        .price { font-size: 1.15rem; padding: 5px 12px; }
+        .add-btn { padding: 10px 20px; font-size: 0.95rem; }
+    }
+
+    @media (min-width: 601px) {
+        .sticky-cart-bar { display: none !important; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <div class="nav-btn-container">
+            <a href="https://tinytraditionsus.com" class="nav-logo">
+                <img src="../images/logo.png" alt="Tiny Traditions Logo">
+            </a>
+
+            <div class="checkout-wrapper">
+                <a href="/form/" class="order-now-nav" id="checkout-link">
+                    Go to Checkout
+                    <span class="cart-total" id="cart-total">$0.00</span>
+                </a>
+                <div class="cart-count" id="cart-count">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="item-grid">
+
+            <div class="item-card" data-color="marigold">
+                <div class="img-square"><img src="../images/TinyTrad9.jpg" alt="Royal Marigold"></div>
+                <div class="right-content">
+                    <h3>Royal Marigold</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Royal Marigold">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="blue">
+                <div class="img-square"><img src="../images/TinyTrad8.jpg" alt="Infinite Vision"></div>
+                <div class="right-content">
+                    <h3>Infinite Vision</h3>
+                    <p class="price">$2.00</p>
+                    <button type="button" class="add-btn" data-item="Infinite Vision">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="ethereal">
+                <div class="img-square"><img src="../images/TinyTrad7.jpg" alt="Ethereal Wing"></div>
+                <div class="right-content">
+                    <h3>Ethereal Wing</h3>
+                    <p class="price">$2.50</p>
+                    <button type="button" class="add-btn" data-item="Ethereal Wing">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad4.jpg" alt="Aura Gold"></div>
+                <div class="right-content">
+                    <h3>Aura Gold</h3>
+                    <p class="price">$2.50</p>
+                    <button type="button" class="add-btn" data-item="Aura Gold">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad1.jpg" alt="Golden Dragonfly"></div>
+                <div class="right-content">
+                    <h3>Golden Dragonfly</h3>
+                    <p class="price">$2.50</p>
+                    <button type="button" class="add-btn" data-item="Golden Dragonfly">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad2.jpg" alt="Mystic Monarch"></div>
+                <div class="right-content">
+                    <h3>Mystic Monarch</h3>
+                    <p class="price">$3.00</p>
+                    <button type="button" class="add-btn" data-item="Mystic Monarch">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad5.jpg" alt="Blooming Bond"></div>
+                <div class="right-content">
+                    <h3>Blooming Bond</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Blooming Bond">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad3.jpg" alt="Amber Ganesha"></div>
+                <div class="right-content">
+                    <h3>Amber Ganesha</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Amber Ganesha">Add to Cart</button>
+                </div>
+            </div>
+
+
+            <div class="item-card" data-color="yellow">
+                <div class="img-square"><img src="../images/TinyTrad11.jpg" alt="Minion Glow"></div>
+                <div class="right-content">
+                    <h3>Minion Glow</h3>
+                    <p class="price">$3.00</p>
+                    <button type="button" class="add-btn" data-item="Minion Glow">Add to Cart</button>
+                </div>
+            </div>
+
+            
+            <div class="item-card" data-color="blue">
+                <div class="img-square"><img src="../images/TinyTrad13.jpg" alt="Blue Bloom"></div>
+                <div class="right-content">
+                    <h3>Blue Bloom</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Blue Bloom">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="blue">
+                <div class="img-square"><img src="../images/TinyTrad10.jpg" alt="Om Radiance"></div>
+                <div class="right-content">
+                    <h3>Om Radiance</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Om Radiance">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="amber">
+                <div class="img-square"><img src="../images/TinyTrad12.jpg" alt="Radiant Nazar"></div>
+                <div class="right-content">
+                    <h3>Radiant Nazar</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Radiant Nazar">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="scarlet">
+                <div class="img-square"><img src="../images/TinyTrad6.jpg" alt="Scarlet Heart"></div>
+                <div class="right-content">
+                    <h3>Scarlet Heart</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Scarlet Heart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad14.jpg" alt="Golden Wheel"></div>
+                <div class="right-content">
+                    <h3>Golden Wheel</h3>
+                    <p class="price">$3.00</p>
+                    <button type="button" class="add-btn" data-item="Golden Wheel">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="gold">
+                <div class="img-square"><img src="../images/TinyTrad15.jpg" alt="Pure Hamsa"></div>
+                <div class="right-content">
+                    <h3>Pure Hamsa</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Pure Hamsa">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="silver">
+                <div class="img-square"><img src="../images/TinyTrad16.jpg" alt="Crystal Hand"></div>
+                <div class="right-content">
+                    <h3>Crystal Hand</h3>
+                    <p class="price">$3.50</p>
+                    <button type="button" class="add-btn" data-item="Crystal Hand">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="item-card" data-color="purple">
+                <div class="img-square"><img src="../images/TinyTrad17.jpg" alt="Shimmer Butterfly"></div>
+                <div class="right-content">
+                    <h3>Shimmer Butterfly</h3>
+                    <p class="price">$3.00</p>
+                    <button type="button" class="add-btn" data-item="Shimmer Butterfly">Add to Cart</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- WhatsApp button -->
+    <div id="whatsapp-chat-button">
+      <a href="https://wa.me/5125604283" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat on WhatsApp" style="width: 50px; height: 50px; display:block;">
+      </a>
+      <div style="margin-top: 5px; font-size: 14px; color: #333; font-weight: 600;">Chat with us</div>
+    </div>
+
+    <!-- Sticky mobile bar -->
+    <div class="sticky-cart-bar" id="stickyCartBar" style="display:none;">
+        <div class="total" id="stickyTotal">Grand Total: $0.00</div>
+        <button class="place-order-btn" id="stickySubmitBtn" disabled>Place Order</button>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const prices = {
+        "Royal Marigold": 3.50,
+        "Infinite Vision": 2.00,
+        "Ethereal Wing": 2.50,
+        "Aura Gold": 2.50,
+        "Golden Dragonfly": 2.50,
+        "Mystic Monarch": 2.50,
+        "Blooming Bond": 3.50,
+        "Amber Ganesha": 3.50,
+        "Minion Glow": 3.00,
+        "Gold Charm": 2.50,
+        "Peacock Elegance": 3.00,
+        "Floral Bliss": 3.00,
+        "Evil Charm": 3.00,
+        "Ganesh Glow": 3.00,
+        "Blue Bloom": 3.50,
+        "Om Radiance": 3.50,
+        "Radiant Nazar": 3.50,
+        "Scarlet Heart": 3.50,
+        "Golden Wheel": 3.00,
+        "Pure Hamsa": 3.50,
+        "Crystal Hand": 3.50,
+        "Shimmer Butterfly": 3.00
+    };
+
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    const checkoutLink = document.getElementById('checkout-link');
+    const cartTotalEl = document.getElementById('cart-total');
+    const cartCountEl = document.getElementById('cart-count');
+    const stickyBar = document.getElementById('stickyCartBar');
+    const stickyTotal = document.getElementById('stickyTotal');
+    const stickyBtn   = document.getElementById('stickySubmitBtn');
+
+    function calculateTotal() {
+        return cart.reduce((sum, item) => {
+            return sum + (prices[item.item] || 0) * item.quantity;
+        }, 0).toFixed(2);
+    }
+
+    function hasAnyFormData() {
+        const saved = sessionStorage.getItem('checkoutFormData');
+        if (!saved) return false;
+        try {
+            const data = JSON.parse(saved);
+            return !!(data.name?.trim() || data.email?.trim() || data.phone?.trim() || data.address?.trim());
+        } catch {
+            return false;
+        }
+    }
+
+    function updateAllDisplays() {
+        const total = calculateTotal();
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const grandText = `Grand Total: $${total}`;
+
+        if (Number(total) > 0) {
+            cartTotalEl.textContent = `$${total}`;
+            cartTotalEl.style.display = 'inline-block';
+        } else {
+            cartTotalEl.textContent = '$0.00';
+            cartTotalEl.style.display = 'none';
+        }
+
+        cartCountEl.textContent = count;
+        cartCountEl.style.display = count > 0 ? 'flex' : 'none';
+
+        const isMobile = window.innerWidth <= 600;
+        const shouldShow = isMobile && (count > 0 || hasAnyFormData());
+
+        stickyBar.style.display = shouldShow ? 'flex' : 'none';
+
+        if (shouldShow) {
+            stickyTotal.textContent = grandText;
+
+            const formData = JSON.parse(sessionStorage.getItem('checkoutFormData') || '{}');
+            const isValid = formData.name?.trim() && formData.email?.trim() && 
+                            formData.phone?.trim() && formData.address?.trim();
+            stickyBtn.disabled = !isValid;
+        }
+    }
+
+    function animatePriceToCart(priceStr, startX, startY) {
+        const flying = document.createElement('div');
+        flying.className = 'flying-price';
+        flying.textContent = priceStr;
+        document.body.appendChild(flying);
+
+        flying.style.left = `${startX}px`;
+        flying.style.top  = `${startY}px`;
+
+        const targetRect = checkoutLink.getBoundingClientRect();
+        const targetX = targetRect.right - 80;
+        const targetY = targetRect.top + 20;
+        const dx = targetX - startX;
+        const dy = targetY - startY;
+
+        requestAnimationFrame(() => {
+            flying.style.setProperty('--dx', `${dx}px`);
+            flying.style.setProperty('--dy', `${dy}px`);
+            flying.style.opacity = '1';
+            flying.style.transform = 'scale(1) translateY(0)';
+
+            setTimeout(() => {
+                flying.style.animation = 'whoosh-improved 1.1s forwards';
+            }, 800);
+
+            setTimeout(() => {
+                flying.remove();
+                updateAllDisplays();
+                cartTotalEl.classList.add('pulse');
+                setTimeout(() => cartTotalEl.classList.remove('pulse'), 800);
+            }, 1600);
+        });
+    }
+
+    document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const name = this.getAttribute('data-item');
+            const price = prices[name];
+            if (!price) return;
+
+            const priceStr = `$${price.toFixed(2)}`;
+
+            const priceEl = this.closest('.right-content').querySelector('.price');
+            if (priceEl) {
+                priceEl.classList.add('animate');
+                setTimeout(() => priceEl.classList.remove('animate'), 700);
+            }
+
+            const rect = this.getBoundingClientRect();
+            const startX = rect.left + rect.width / 2 - 40;
+            const startY = rect.top + rect.height / 2 - 20;
+            animatePriceToCart(priceStr, startX, startY);
+
+            const existing = cart.find(i => i.item === name);
+            if (existing) existing.quantity += 1;
+            else cart.push({ item: name, quantity: 1 });
+
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            updateAllDisplays();
+        });
+    });
+
+    checkoutLink.addEventListener('click', e => {
+        if (cart.length === 0) {
+            e.preventDefault();
+            alert('Your cart is empty!');
+        }
+    });
+
+    stickyBtn?.addEventListener('click', () => {
+        if (!stickyBtn.disabled) {
+            window.location.href = '/form/';
+        }
+    });
+
+    window.addEventListener('resize', updateAllDisplays);
+
+    updateAllDisplays();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Team - Tiny Traditions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+<style>
+    html { scroll-behavior: smooth; }
+    body { 
+        margin: 0; 
+        padding: 0; 
+        font-family: 'Volkhov', sans-serif; 
+        background-color: #fffaf8; 
+        color: #333;
+        overflow-x: hidden;
+    }
+    .header-link { 
+        text-decoration: none; 
+        display: block; 
+        transition: transform 0.3s ease; 
+    }
+    .header-link:hover { 
+        transform: scale(1.02); 
+    }
+    .title-header { 
+        background-color: #52B2B7; 
+        min-height: 20vh; 
+        width: 100%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: white; 
+        font-size: 50pt; 
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        gap: 20px;
+        position: relative;
+    }
+    .title-header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        transition: background 0.3s ease;
+        pointer-events: none;
+    }
+    .title-header:hover::after {
+        background: rgba(0,0,0,0.18);
+    }
+    nav { 
+        background-color: #E6F9FF;
+        padding: 15px 0; 
+        text-align: center;
+        border-bottom: 1px solid #c0efff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    nav a { 
+        color: #334155;
+        margin: 0 20px; 
+        text-decoration: none; 
+        font-weight: bold; 
+        font-size: 1.3rem;
+        transition: color 0.3s ease;
+    }
+    nav a:hover { 
+        color: #52B2B7; 
+    }
+    nav a.active {
+        color: #52B2B7;
+    }
+
+    /* ==================== CORE TEAM STYLES ==================== */
+    .core-team-section {
+        padding: 80px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+    .team-card {
+        display: flex;
+        gap: 50px;
+        align-items: flex-start;
+        margin-bottom: 100px;
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .team-image-container {
+        flex: 0 0 228px; /* Reduced by 40% from 380px */
+        text-align: center;
+    }
+    .team-image {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        margin-bottom: 15px;
+    }
+    .team-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .team-caption {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #52B2B7;
+        margin: 0;
+        line-height: 1.2; /* Adjusted line height for better spacing */
+        text-align: center; /* Center-align the text */
+    }
+    .team-caption br {
+        display: block;
+        content: "";
+    }
+    .team-text {
+        flex: 1;
+        line-height: 1.8;
+    }
+    .team-text h2 {
+        color: #52B2B7;
+        font-size: 2.4rem;
+        margin: 0 0 25px 0;
+    }
+
+    /* This controls the font size of the info text about each person */
+    .team-text p {
+        font-size: 1.08rem;        /* ← Change this to make text smaller or bigger */
+        margin-bottom: 22px;
+    }
+
+    .team-text a {
+        color: #52B2B7;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .team-text a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .title-header { 
+            font-size: 40pt; 
+            min-height: 15vh; 
+        }
+        nav a { 
+            margin: 0 12px; 
+            font-size: 1.1rem; 
+        }
+        .team-card {
+            flex-direction: column;
+            gap: 30px;
+            padding: 30px;
+        }
+        .team-image-container {
+            flex: 0 0 auto;
+            max-width: 100%;
+        }
+        .team-image-container {
+            flex: 0 0 171px; /* Reduced by an additional 25% from 228px */
+        }
+        .team-text p {
+            font-size: 0.90rem;     /* Smaller on mobile */
+        }
+    }
+    @media (min-width: 769px) {
+        .team-image-container {
+            flex: 0 0 350px; /* Increased size for desktop view */
+        }
+    }
+</style>
+</head>
+<body>
+
+    <!-- Teal Banner -->
+    <a href="/" class="header-link">
+        <div class="title-header">
+            <div>Tiny Traditions</div>
+        </div>
+    </a>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/">Home</a>
+        <a href="/reviews/">Reviews</a>
+        <a href="/core-team/" class="active">Core Team</a>
+    </nav>
+
+    <!-- Core Team Content -->
+    <div class="core-team-section">
+
+        <!-- Myrah -->
+        <div class="team-card">
+            <div class="team-image-container">
+                <div class="team-image">
+                    <img src="./Myrah.jpg" alt="Myrah">
+                </div>
+                <p class="team-caption">Chief Executive Officer<br>(CEO)</p>
+            </div>
+            <div class="team-text">
+                <h2>Myrah Gulati</h2>
+                <p>Hi! I’m a 10-year-old 5th grader, CEO and founder of Tiny Traditions. I love dancing, playing outdoors, and I’m one of the fastest runners in my school—even while living with celiac disease and type 1 diabetes.</p>
+                <p>I also love academics and enjoy learning new things every day. I’m a happy, enthusiastic, and chatty person who loves connecting with others and bringing ideas to life.</p>
+                <p>My family means everything to me—my mom, dad, baby brother, and our dog, MoMo. I face challenges every day, but I work hard, stay strong, and never give up.</p>
+                <p>I believe in creativity, resilience, and finding joy in the little things. 💫</p>
+            </div>
+        </div>
+
+        <!-- Avyaan -->
+        <div class="team-card">
+            <div class="team-image-container">
+                <div class="team-image">
+                    <img src="./Avyaan.jpg" alt="Avyaan">
+                </div>
+                <p class="team-caption">Chief Technology Officer (CTO)</p>
+            </div>
+            <div class="team-text">
+                <h2>Avyaan Varshney</h2>
+                <p>Hi! I’m Avyaan Varshney, a Grade 4 student from New Jersey who loves building things with technology. I create videos, design websites, and turn fun ideas into real projects. I enjoy solving math problems, speedcubing with my Rubik’s Cube, reading books, and playing soccer, swimming, and cricket.</p>
+                <p>I run two YouTube channels: <a href="https://www.youtube.com/@IllusionPlayzShorts" target="_blank" rel="noopener">IllusionPlayz</a> and <a href="https://www.youtube.com/@A.V.Cuber10
+" target="_blank" rel="noopener">AVcuber</a>. I’m also the Chief Technology Officer of Tiny Traditions — a handcrafted kids’ rakhi store.</p>
+                <p>If you need a cool website for your business, feel free to reach me at nkavyaan@gmail.com.</p>
+                <p>Thanks for visiting — big ideas coming soon! 🚀</p>
+            </div>
+        </div>
+
+        <!-- Sisira -->
+        <div class="team-card">
+            <div class="team-image-container">
+                <div class="team-image">
+                    <img src="./Sisira.jpg" alt="Sisira">
+                </div>
+                <p class="team-caption">Chief Operations Officer<br>(COO)</p>
+            </div>
+            <div class="team-text">
+                <h2>Sisira Moragudi</h2>
+                <p>I’m Sisira! I’m a proud 3rd grader at VES, always excited to take on new challenges and learn something new. I especially enjoy Math and Language Arts—there’s nothing more fun than solving a tricky problem or discovering the deeper meaning in a great story. School inspires my curiosity and helps me think creatively and analytically in everything I do.</p>
+                
+                <p>Along with my friends at Tiny Traditions, I turn imagination into reality by creating handmade rakhis. Using colorful threads, bright beads, and a whole lot of heart, we carefully craft each piece to be unique and high-quality. I started this journey to share the joy and meaning of Raksha Bandhan with families everywhere.</p>
+                
+                <p>When I’m not at school or working on Tiny Traditions, I love staying active and creative. I practice Bharatanatyam, a beautiful Indian classical dance that lets me express myself with grace and storytelling. I also enjoy puzzles and board games—whether it’s a quiet afternoon solving a challenge or a fun, noisy game night with my mom, dad, my naughty brother, and my friends.</p>
+                
+                <p>I’m excited to keep learning, growing, and creating every single day!</p>
+            </div>
+        </div>
+
+        <!-- Anya -->
+        <div class="team-card">
+            <div class="team-image-container">
+                <div class="team-image">
+                    <img src="./Anya.jpg" alt="Anya">
+                </div>
+                <p class="team-caption">Chief Creative Officer<br>(CCO)</p>
+            </div>
+            <div class="team-text">
+                <h2>Anya Dhebaria</h2>
+                <p>My name is Anya Dhebaria. I am nine years old and currently in the third grade. I serve as the Chief Creative Officer (CCO) of Tiny Traditions, where I love using my creativity to come up with fun and unique ideas.</p>
+                
+                <p>Here at Tiny Traditions, we love to create handcrafted rakhis, putting care, detail, and thought into each one. I especially enjoy coming up with beautiful color combinations and finding ways to make every piece feel special and unique. We all share the same goal at Tiny Traditions—to grow bigger and better together as a team.</p>
+                
+                <p>In my free time, I enjoy coloring, spending time with my friends, watching movies, reading interesting books, and I also love cooking. I have learned so much from my mom and her business, 
+                <a href="https://itscustomaary.com" target="_blank" rel="noopener">It’s Customaary</a>, 
+                where she creates and sells customized and personalized gifts. I also enjoy organizing things and making sure everything looks neat and clean.</p>
+                
+                <p>My family includes my parents, my little sister, and me. I love talking with others, doing outdoor activities, and helping people whenever I can. My favorite color is blue because it reminds me of the sky and the ocean.</p>
+                
+                <p>I especially enjoy spending time with my sister building forts and going to the movies with my dad.</p>
+                
+                <p>I am a kind, creative, and curious person who loves learning new things and trying new activities. In the future, I hope to continue helping others and creating things that make people happy.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

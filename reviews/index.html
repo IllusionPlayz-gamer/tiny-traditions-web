@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Tiny Traditions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Volkhov', sans-serif; 
+            background-color: #fffaf8; 
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER & NAV --- */
+        .header-link { text-decoration: none; display: block; transition: transform 0.3s ease; }
+        .title-header { 
+            background-color: #52B2B7; 
+            min-height: 20vh; 
+            width: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 50pt; 
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        nav { 
+            background-color: #E6F9FF;
+            padding: 15px 0; 
+            text-align: center;
+            border-bottom: 1px solid #c0efff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a { 
+            color: #334155;
+            margin: 0 20px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 1.3rem; 
+        }
+
+        /* --- REVIEWS GRID --- */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+            justify-content: center; /* Centers images on tablet */
+        }
+        .img-wrapper { 
+            position: relative; 
+            overflow: hidden;
+            border-radius: 12px;
+            aspect-ratio: 4 / 5;
+            background: #f8f8f8;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #000; /* Your Black Border */
+            box-sizing: border-box;
+            transition: transform 0.4s ease;
+        }
+        
+        /* Zoom effect only on Desktop (Devices with mouse) */
+        @media (hover: hover) {
+            .img-wrapper:hover img { transform: scale(0.94); }
+            .fullscreen-btn { opacity: 0; }
+            .img-wrapper:hover .fullscreen-btn { opacity: 1; }
+        }
+
+        /* --- FULLSCREEN BUTTON --- */
+        .fullscreen-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.7);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 5;
+            transition: 0.3s;
+        }
+
+        /* --- CTA BUTTONS --- */
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f0fbfc;
+            border-top: 1px solid #eee;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 16px 32px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-review { background: #52B2B7; color: white; }
+        .btn-home { border: 2px solid #52B2B7; color: #52B2B7; }
+
+        /* --- MODAL --- */
+        #imgModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border: 2px solid white;
+            border-radius: 8px;
+        }
+
+        /* --- RESPONSIVE FIXES --- */
+        @media (max-width: 768px) {
+            .title-header { font-size: 32pt; min-height: 15vh; }
+            .fullscreen-btn { opacity: 1 !important; } /* Always show on mobile */
+            .button-group { flex-direction: column; align-items: center; }
+            .btn { width: 80%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="header-link">
+        <div class="title-header">Tiny Traditions</div>
+    </a>
+
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+
+    <div style="text-align:center;">
+        <h2 style="font-size: clamp(2rem, 8vw, 3.5rem); margin: 40px 0;">Customer Reviews</h2>
+        
+        <div class="reviews-grid">
+            <div class="img-wrapper"><img src="review1.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review2.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review3.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review4.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review5.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review6.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review7.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+            <div class="img-wrapper"><img src="review8.jpeg" alt="Review"><button class="fullscreen-btn">⤢</button></div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <p style="font-size: 1.4rem; margin-bottom: 25px;">Own a Tiny Tradition? We'd love to see it!</p>
+        <div class="button-group">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSelfbEghPET6QxA73D0_PXeAUzzE_quuW027YjarOClWE08BA/viewform" class="btn btn-review" target="_blank">Leave a Review</a>
+            <a href="/" class="btn btn-home">Back to Home</a>
+        </div>
+    </div>
+
+    <div id="imgModal">
+        <span id="closeModal" style="position:absolute; top:20px; right:30px; color:white; font-size:50px; cursor:pointer;">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <div id="whatsapp-chat-button" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <a href="https://wa.me/5125604283" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat" style="width: 50px; height: 50px;">
+        </a>
+    </div>
+
+    <script>
+        const modal = document.getElementById('imgModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.getElementById('closeModal');
+
+        document.querySelectorAll('.fullscreen-btn').forEach(btn => {
+            btn.onclick = function() {
+                modalImg.src = this.previousElementSibling.src;
+                modal.style.display = 'flex';
+            };
+        });
+
+        closeBtn.onclick = () => { modal.style.display = 'none'; };
+        window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+    </script>
+
+</body>
+</html>

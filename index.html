@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Traditions - Handcrafted Rakhis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+<style>
+    html { scroll-behavior: smooth; }
+    body { 
+        margin: 0; 
+        padding: 0; 
+        font-family: 'Volkhov', sans-serif; 
+        background-color: #fffaf8; 
+        color: #333;
+        overflow-x: hidden;
+    }
+    .header-link { text-decoration: none; display: block; transition: transform 0.3s ease; }
+    .header-link:hover { transform: scale(1.02); }
+    .title-header { 
+        background-color: #52B2B7; 
+        min-height: 20vh; 
+        width: 100%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        color: white; 
+        font-size: 50pt; 
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        gap: 20px;
+        position: relative;
+    }
+    .title-header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        transition: background 0.3s ease;
+        pointer-events: none;
+    }
+    .title-header:hover::after {
+        background: rgba(0,0,0,0.18);
+    }
+    .header-logo {
+        width: 350px;
+        height: 350px;
+        border-radius: 10px;
+        object-fit: cover;
+        margin-top: -20px;
+    }
+    nav { 
+        background-color: #E6F9FF;
+        padding: 15px 0; 
+        text-align: center;
+        border-bottom: 1px solid #c0efff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    nav a { 
+        color: #334155;
+        margin: 0 20px; 
+        text-decoration: none; 
+        font-weight: bold; 
+        font-size: 1.3rem;
+        transition: color 0.3s ease;
+    }
+    nav a:hover { color: #52B2B7; }
+
+    /* Updated main-content for better spacing */
+    .main-content { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding: 60px 20px; 
+        min-height: 40vh;    
+        justify-content: center;
+        text-align: center; 
+        gap: 15px; /* Adds space between vertical items */
+    }
+
+    h2 { font-size: 3rem; margin-bottom: 10px; }
+    p { font-size: 1.4rem; margin-bottom: 20px; color: #555; }
+
+    /* Fixed order-button spacing */
+    .order-button { 
+        background-color: #52B2B7; 
+        color: white; 
+        padding: 18px 0; /* Padding top/bottom */
+        width: 100%;
+        max-width: 380px; /* Keeps buttons uniform and readable */
+        font-size: 1.5rem; 
+        text-decoration: none; 
+        border-radius: 50px; 
+        font-weight: bold; 
+        box-shadow: 0 4px 15px rgba(82, 178, 183, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        margin-bottom: 5px; /* Extra insurance against squishing */
+    }
+
+    .order-button::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0);
+        transition: background 0.3s ease;
+        pointer-events: none;
+    }
+    .order-button:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(82, 178, 183, 0.4);
+    }
+    .order-button:hover::after {
+        background: rgba(0,0,0,0.1);
+    }
+
+    .about-section {
+        padding: 80px 20px;
+        background-color: #fff;
+        border-top: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .about-text {
+        max-width: 700px;
+        line-height: 1.8;
+        font-size: 1.2rem;
+        color: #444;
+        text-align: center;
+    }
+    .about-section h2 { color: #52B2B7; font-size: 2.5rem; margin-bottom: 20px; }
+    
+    #backToTop {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        background-color: #52B2B7;
+        color: white;
+        border-radius: 50%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 24px;
+        z-index: 9999;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        transform: translateX(-50%);
+        transform-origin: center center;
+        will-change: transform;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    #backToTop:hover {
+        transform: translateX(-50%) scale(1.1);
+        background-color: #3d8f93;
+    }
+
+    .rakhi-countdown {
+        margin-top: 40px;
+        padding: 20px;
+        background: linear-gradient(135deg, #fff3e0, #ffebee);
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(199, 21, 133, 0.15);
+        max-width: 500px;
+        width: 90%;
+        text-align: center;
+        font-size: 1.4rem;
+        color: #c62828;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+    .rakhi-countdown strong {
+        font-size: 2rem;
+        color: #d32f2f;
+    }
+
+    @media (max-width: 768px) {
+        .title-header { font-size: 40pt; min-height: 15vh; }
+        h2 { font-size: 2.5rem; }
+        p { font-size: 1.2rem; }
+        .order-button { font-size: 1.3rem; max-width: 320px; }
+    }
+
+    @media (max-width: 480px) {
+        .title-header { font-size: 28pt; padding: 10px; min-height: 12vh; gap: 10px; }
+        .header-logo { width: 180px; height: 180px; margin-top: -10px; }
+        .main-content { padding: 40px 15px; }
+        h2 { font-size: 1.8rem; margin-bottom: 8px; }
+        p { font-size: 1.1rem; margin-bottom: 20px; }
+        .order-button { padding: 15px 0; font-size: 1.1rem; max-width: 280px; }
+    }
+</style>
+</head>
+<body>
+    <a href="/" class="header-link">
+        <div class="title-header">
+            <div>Tiny Traditions</div>
+        </div>
+    </a>
+    <nav>
+        <a href="javascript:void(0)" onclick="scrollToSection('about')">Our Story</a>
+        <a href="/core-team/">Core Team</a>
+        <a href="/reviews/">Reviews</a>
+    </nav>
+
+    <div class="main-content">
+    <img src="./images/logo.png" alt="Tiny Traditions Logo" class="header-logo">
+    <h2>Handcrafted Collections</h2>
+    <p>Celebrate the bond with our exclusive new collection.</p>
+    
+    <a href="choose/?type=Rakhi" class="order-button">Rakhi Collection →</a>
+    <a href="choose/?type=Jewelry" class="order-button">Jewelry Collection →</a>
+    <a href="choose/?type=Accessories" class="order-button">Accessories Collection →</a>
+
+    <div class="rakhi-countdown" id="rakhi-countdown">
+        <strong id="rakhi-days">--</strong> days until Rakhi 2026! <span class="emoji">🎁</span>
+    </div>
+</div>
+
+    <div id="about" class="about-section">
+        <h2>Our Story</h2>
+        <div class="about-text">
+            Handcrafted by Little Creators, With Big Hearts<br><br>
+            Welcome to Tiny Traditions — where imagination, creativity, and kid-power come together to create something truly special.<br><br>
+            We’re not just another boutique store — we’re a 100% kid-owned and kid-run setup. Every piece you see here is handcrafted by young makers who pour their heart and vision into every design.<br><br>
+            We kids see the world with wonder, not limitations. That spirit lives in every Rakhi we create. Each one is thoughtfully designed and made by talented young hands, celebrating connection, craftsmanship, and culture.<br><br>
+            Meet the <a href="/core-team/" style="color:#52B2B7; font-weight:600;">Core Team</a>!
+        </div>
+
+        <div style="text-align:center; margin:40px 0; font-size: 10pt;">
+            <div>Disclaimer:</div>
+            We do not use any personal data for marketing or advertising. We only collect the information necessary to process orders and provide customer support.
+        </div>
+    </div>
+
+    <script>
+        const rakhiDate = new Date('2026-08-28T00:00:00');
+        const countdownEl = document.getElementById('rakhi-days');
+        const countdownContainer = document.getElementById('rakhi-countdown');
+
+        function updateRakhiCountdown() {
+            const now = new Date();
+            const diffTime = rakhiDate - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays > 0) {
+                countdownEl.textContent = diffDays;
+            } else if (diffDays === 0) {
+                countdownContainer.innerHTML = 'Rakhi is TODAY! 🎉 Tie those Rakhis!';
+            } else {
+                countdownContainer.innerHTML = 'Rakhi 2026 has passed — see you next year! ❤️';
+            }
+        }
+
+        updateRakhiCountdown();
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        const topBtn = document.getElementById('backToTop');
+        if (topBtn) {
+            topBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    </script>
+
+    <div id="whatsapp-chat-button" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; text-align: center;">
+        <a href="https://wa.me/5125604283" target="_blank" style="display:inline-block;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Chat on WhatsApp" style="width: 50px; height: 50px; display:block;">
+        </a>
+        <div style="margin-top: 5px; font-size: 14px; color: #333; font-weight: 600;">Chat with us</div>
+    </div>
+</body>
+</html>

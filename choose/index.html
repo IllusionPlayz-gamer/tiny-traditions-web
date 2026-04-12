@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Traditions Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+    /* --- CORE STYLES --- */
+    * { box-sizing: border-box; }
+    body { font-family: 'Volkhov', serif; background-color: #fffaf8; margin: 0; padding-bottom: 120px; overflow-x: hidden; }
+
+    /* --- FIXED NAVIGATION BAR --- */
+    .nav-bar { 
+        display: flex; flex-direction: column; align-items: center; padding: 15px;
+        background: #E6F9FF; border-bottom: 2px solid #c0efff; position: sticky; top: 0; z-index: 1000;
+        gap: 12px;
+    }
+    .nav-btn-container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .nav-logo img { height: 50px; width: auto; }
+
+    .checkout-wrapper { display: flex; gap: 10px; justify-content: center; width: 100%; flex-wrap: wrap; }
+
+    .order-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+        color: white !important; padding: 12px 20px; text-decoration: none; 
+        border-radius: 50px; font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        min-width: 160px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .btn-email { background-color: #52B2B7; }
+    .btn-wa { background-color: #25D366; }
+
+    .cart-total-pill { background: white; color: #333; padding: 2px 8px; border-radius: 15px; font-size: 0.8rem; margin: 0 5px; }
+    .cart-count-badge { background: #ff4757; color: white; min-width: 20px; height: 20px; border-radius: 50%; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+    /* --- LOADING ANIMATION --- */
+    #loader-wrapper {
+        grid-column: 1 / -1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        padding: 100px 0; color: #52B2B7;
+    }
+    .loader-shape {
+        width: 50px; height: 50px; background-color: #52B2B7;
+        animation: morph 2s infinite ease-in-out; margin-bottom: 20px;
+    }
+    @keyframes morph {
+        0% { transform: rotate(0deg); border-radius: 50%; background-color: #52B2B7; }
+        50% { transform: rotate(180deg); border-radius: 10%; background-color: #E6F9FF; }
+        100% { transform: rotate(360deg); border-radius: 50%; background-color: #52B2B7; }
+    }
+
+    /* --- PRODUCT GRID --- */
+    .main-content { padding: 20px; max-width: 1300px; margin: auto; }
+    .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+
+    .item-card { 
+        border: 1px solid #eee; border-radius: 16px; background: white;
+        display: flex; flex-direction: column; overflow: hidden; 
+        transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .img-square { width: 100%; height: 200px; background: #f0f0f0; overflow: hidden; cursor: zoom-in; }
+    .img-square img { width: 100%; height: 100%; object-fit: cover; }
+
+    .right-content { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
+    h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #333; height: 2.4em; overflow: hidden; }
+    .price { font-weight: bold; color: #27ae60; font-size: 1.2rem; margin-bottom: 10px; }
+
+    .add-btn { 
+        background: #52B2B7; color: white; border: none; padding: 12px; 
+        border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%;
+        font-size: 1rem; margin-top: auto;
+    }
+    .add-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+    #lightbox { 
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); 
+        z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+    }
+    #lightbox img { max-width: 100%; max-height: 90vh; border-radius: 10px; object-fit: contain; }
+
+    @media (max-width: 600px) {
+        .item-grid { grid-template-columns: 1fr; gap: 15px; }
+        .item-card { flex-direction: row; height: auto; min-height: 150px; }
+        .img-square { width: 130px; height: auto; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <div class="nav-btn-container">
+            <a href="/" class="nav-logo"><img src="../images/logo.png" alt="Tiny Traditions"></a>
+            <div class="checkout-wrapper">
+    <a href="/form/?method=email" class="order-btn btn-email">
+        Email <span class="cart-total-pill" id="cart-total">$0.00</span>
+        <span class="cart-count-badge">0</span>
+    </a>
+    <a href="/form/?method=wa" class="order-btn btn-wa">
+        💬 WhatsApp <span class="cart-total-pill" id="cart-total-wa">$0.00</span>
+        <span class="cart-count-badge">0</span>
+    </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="item-grid" id="rakhi-container">
+            <div id="loader-wrapper">
+                <div class="loader-shape"></div>
+                <p>Gathering Traditions...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox"><img id="lightbox-image" src=""></div>
+
+<script>
+const SHEET_ID = '1qgRy18Z6cQw6HREFFHoBw226iNQMRTAPPNm7XswpD0c';
+const params = new URLSearchParams(window.location.search);
+const selectedType = params.get('type'); 
+
+let globalStock = {}; 
+let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+async function loadProducts() {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Website%20Catalog`;
+
+    try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+        
+        const container = document.getElementById('rakhi-container');
+        container.innerHTML = ''; 
+
+        rows.forEach(r => {
+            const giftType = r.c[0] ? String(r.c[0].v).trim() : "";
+            const name = r.c[2] ? r.c[2].v : null;
+            if (!name) return;
+            if (selectedType && giftType.toLowerCase() !== selectedType.toLowerCase()) return;
+
+            // FIXED DRIVE TRANSFORMER
+            let imgUrl = r.c[1] ? r.c[1].v : "";
+            if (imgUrl.includes("drive.google.com")) {
+                const idMatch = imgUrl.match(/[-\w]{25,}/);
+                if (idMatch) imgUrl = `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
+            }
+
+            const rawPrice = r.c[4] ? String(r.c[4].v) : "0";
+            const priceNum = parseFloat(rawPrice.replace(/[^0-9.]/g, '')) || 0;
+            const stockQty = parseInt(r.c[5] ? r.c[5].v : 0);
+            
+            globalStock[name] = stockQty;
+            const isSoldOut = stockQty <= 0;
+
+            container.innerHTML += `
+                <div class="item-card" data-image="${imgUrl}">
+                    <div class="img-square"><img src="${imgUrl}" onerror="this.src='../images/logo.png'"></div>
+                    <div class="right-content">
+                        <h3>${name}</h3>
+                        <p class="price">$${priceNum.toFixed(2)}</p>
+                        <p style="font-size:0.75rem; color:${isSoldOut?'#e74c3c':'#7f8c8d'}">
+                            ${isSoldOut ? 'Sold Out' : 'In Stock: ' + stockQty}
+                        </p>
+                        <button class="add-btn" data-item="${name}" data-price="${priceNum}" ${isSoldOut?'disabled':''}>
+                            ${isSoldOut ? 'Sold Out' : 'Add to Cart'}
+                        </button>
+                    </div>
+                </div>`;
+        });
+        setupLightbox();
+    } catch (err) { console.error(err); }
+}
+
+function setupLightbox() {
+    document.querySelectorAll('.item-card').forEach(card => {
+        card.onclick = (e) => {
+            if (e.target.classList.contains('add-btn')) return;
+            document.getElementById('lightbox-image').src = card.dataset.image;
+            document.getElementById('lightbox').style.display = 'flex';
+        };
+    });
+}
+document.getElementById('lightbox').onclick = () => document.getElementById('lightbox').style.display = 'none';
+
+function updateAllDisplays() {
+    const count = cart.reduce((sum, i) => sum + i.quantity, 0);
+    const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
+    
+    document.querySelectorAll('.cart-count-badge').forEach(b => {
+        b.textContent = count;
+        b.style.display = count > 0 ? 'flex' : 'none';
+    });
+    if(document.getElementById('cart-total')) document.getElementById('cart-total').textContent = `$${total}`;
+    if(document.getElementById('cart-total-wa')) document.getElementById('cart-total-wa').textContent = `$${total}`;
+}
+
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('add-btn')) {
+        const name = e.target.dataset.item;
+        const price = parseFloat(e.target.dataset.price);
+        const stockLimit = globalStock[name] || 0;
+        
+        let cartItem = cart.find(i => i.item === name);
+        if (cartItem) {
+            if (cartItem.quantity < stockLimit) cartItem.quantity++;
+            else alert("Limit reached!");
+        } else {
+            cart.push({ item: name, price: price, quantity: 1 });
+        }
+        sessionStorage.setItem('cart', JSON.stringify(cart));
+        updateAllDisplays();
+    }
+});
+
+loadProducts();
+updateAllDisplays();
+</script>
+</body>
+</html>
