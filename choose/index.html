@@ -131,6 +131,29 @@ const selectedType = params.get('type');
 let globalStock = {}; 
 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
+// --- NEW: Function to update WhatsApp & Email links dynamically ---
+function updateCheckoutLinks() {
+    if (cart.length === 0) return;
+
+    let message = "Hi Tiny Traditions! I'd like to order:\n";
+    cart.forEach(i => {
+        message += `- ${i.item} (Qty: ${i.quantity}) - $${(i.price * i.quantity).toFixed(2)}\n`;
+    });
+    
+    const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
+    message += `\nTotal: $${total}`;
+
+    const encodedMsg = encodeURIComponent(message);
+    
+    // Update WhatsApp Button
+    const waBtn = document.getElementById('whatsapp-btn'); // Ensure your HTML ID matches this
+    if (waBtn) waBtn.href = `https://wa.me/1234567890?text=${encodedMsg}`; // Put your actual number here
+
+    // Update Email Button
+    const emailBtn = document.getElementById('email-btn'); // Ensure your HTML ID matches this
+    if (emailBtn) emailBtn.href = `mailto:info@tinytraditionsus.com?subject=New Order&body=${encodedMsg}`;
+}
+
 async function loadProducts() {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Website%20Catalog`;
 
@@ -147,9 +170,10 @@ async function loadProducts() {
             const giftType = r.c[0] ? String(r.c[0].v).trim() : "";
             const name = r.c[2] ? r.c[2].v : null;
             if (!name) return;
+
+            // Filter logic for subdomain or parameters
             if (selectedType && giftType.toLowerCase() !== selectedType.toLowerCase()) return;
 
-            // FIXED DRIVE TRANSFORMER
             let imgUrl = r.c[1] ? r.c[1].v : "";
             if (imgUrl.includes("drive.google.com")) {
                 const idMatch = imgUrl.match(/[-\w]{25,}/);
@@ -191,7 +215,6 @@ function setupLightbox() {
         };
     });
 }
-document.getElementById('lightbox').onclick = () => document.getElementById('lightbox').style.display = 'none';
 
 function updateAllDisplays() {
     const count = cart.reduce((sum, i) => sum + i.quantity, 0);
@@ -203,6 +226,9 @@ function updateAllDisplays() {
     });
     if(document.getElementById('cart-total')) document.getElementById('cart-total').textContent = `$${total}`;
     if(document.getElementById('cart-total-wa')) document.getElementById('cart-total-wa').textContent = `$${total}`;
+    
+    // Refresh the links every time the display updates
+    updateCheckoutLinks();
 }
 
 document.addEventListener('click', (e) => {

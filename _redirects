@@ -1,2 +1,1 @@
-# This rule only triggers if the visitor is NOT already on the subdomain
-https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
+/choose/* https://choose.tinytraditionsus.com/:splat  301!
