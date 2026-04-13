@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-YJ6PE1M1RC');
-    </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YJ6PE1M1RC');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiny Traditions Shop</title>
@@ -96,18 +98,16 @@
 
     <div class="nav-bar">
         <div class="nav-btn-container">
-            <a href="https://www.tinytraditionsus.com" class="nav-logo">
-                <img src="https://www.tinytraditionsus.com/images/logo.png" alt="Tiny Traditions">
-            </a>
+            <a href="/" class="nav-logo"><img src="../images/logo.png" alt="Tiny Traditions"></a>
             <div class="checkout-wrapper">
-                <a href="https://www.tinytraditionsus.com/form/?method=email" id="email-btn" class="order-btn btn-email">
-                    Email <span class="cart-total-pill" id="cart-total">$0.00</span>
-                    <span class="cart-count-badge">0</span>
-                </a>
-                <a href="https://www.tinytraditionsus.com/form/?method=wa" id="whatsapp-btn" class="order-btn btn-wa">
-                    💬 WhatsApp <span class="cart-total-pill" id="cart-total-wa">$0.00</span>
-                    <span class="cart-count-badge">0</span>
-                </a>
+    <a href="/form/?method=email" class="order-btn btn-email">
+        Email <span class="cart-total-pill" id="cart-total">$0.00</span>
+        <span class="cart-count-badge">0</span>
+    </a>
+    <a href="/form/?method=wa" class="order-btn btn-wa">
+        💬 WhatsApp <span class="cart-total-pill" id="cart-total-wa">$0.00</span>
+        <span class="cart-count-badge">0</span>
+    </a>
             </div>
         </div>
     </div>
@@ -131,26 +131,6 @@ const selectedType = params.get('type');
 let globalStock = {}; 
 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-function updateCheckoutLinks() {
-    if (cart.length === 0) return;
-
-    let message = "Hi Tiny Traditions! I'd like to order:\n";
-    cart.forEach(i => {
-        message += `- ${i.item} (Qty: ${i.quantity}) - $${(i.price * i.quantity).toFixed(2)}\n`;
-    });
-    
-    const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0).toFixed(2);
-    message += `\nTotal: $${total}`;
-
-    const encodedMsg = encodeURIComponent(message);
-    
-    const waBtn = document.getElementById('whatsapp-btn');
-    if (waBtn) waBtn.href = `https://wa.me/1234567890?text=${encodedMsg}`; // Update with your actual WhatsApp number
-
-    const emailBtn = document.getElementById('email-btn');
-    if (emailBtn) emailBtn.href = `mailto:info@tinytraditionsus.com?subject=New Order&body=${encodedMsg}`;
-}
-
 async function loadProducts() {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Website%20Catalog`;
 
@@ -167,13 +147,12 @@ async function loadProducts() {
             const giftType = r.c[0] ? String(r.c[0].v).trim() : "";
             const name = r.c[2] ? r.c[2].v : null;
             if (!name) return;
-
             if (selectedType && giftType.toLowerCase() !== selectedType.toLowerCase()) return;
 
+            // FIXED DRIVE TRANSFORMER
             let imgUrl = r.c[1] ? r.c[1].v : "";
             if (imgUrl.includes("drive.google.com")) {
                 const idMatch = imgUrl.match(/[-\w]{25,}/);
-                // Fixed syntax error here with ${idMatch[0]}
                 if (idMatch) imgUrl = `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
             }
 
@@ -186,9 +165,7 @@ async function loadProducts() {
 
             container.innerHTML += `
                 <div class="item-card" data-image="${imgUrl}">
-                    <div class="img-square">
-                        <img src="${imgUrl}" onerror="this.src='https://www.tinytraditionsus.com/images/logo.png'">
-                    </div>
+                    <div class="img-square"><img src="${imgUrl}" onerror="this.src='../images/logo.png'"></div>
                     <div class="right-content">
                         <h3>${name}</h3>
                         <p class="price">$${priceNum.toFixed(2)}</p>
@@ -214,6 +191,7 @@ function setupLightbox() {
         };
     });
 }
+document.getElementById('lightbox').onclick = () => document.getElementById('lightbox').style.display = 'none';
 
 function updateAllDisplays() {
     const count = cart.reduce((sum, i) => sum + i.quantity, 0);
@@ -225,8 +203,6 @@ function updateAllDisplays() {
     });
     if(document.getElementById('cart-total')) document.getElementById('cart-total').textContent = `$${total}`;
     if(document.getElementById('cart-total-wa')) document.getElementById('cart-total-wa').textContent = `$${total}`;
-    
-    updateCheckoutLinks();
 }
 
 document.addEventListener('click', (e) => {
@@ -246,11 +222,6 @@ document.addEventListener('click', (e) => {
         updateAllDisplays();
     }
 });
-
-// Hide lightbox on click
-document.getElementById('lightbox').onclick = function() {
-    this.style.display = 'none';
-};
 
 loadProducts();
 updateAllDisplays();
