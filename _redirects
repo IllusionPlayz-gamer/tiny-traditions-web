@@ -1,1 +1,6 @@
-/choose/* https://choose.tinytraditionsus.com/:splat  301!
+# This rule only triggers for the OLD path on the MAIN domain
+https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
+
+# This rule makes the subdomain show the content of the choose folder
+# WITHOUT changing the URL in the browser bar
+https://choose.tinytraditionsus.com/* /choose/:splat  200
