@@ -1,5 +1,5 @@
-# This 'masks' the /choose folder so the subdomain works
+# 1. Map the subdomain to the /choose folder (Rewrite)
 https://choose.tinytraditionsus.com/* /choose/:splat 200
 
-# This moves anyone using the old link to the new subdomain
-https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat 301!
+# 2. Force old /choose links to move to the subdomain (Redirect)
+/choose/* https://choose.tinytraditionsus.com/:splat 301!
