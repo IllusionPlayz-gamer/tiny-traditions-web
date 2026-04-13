@@ -1,6 +1,5 @@
-# This rule only triggers for the OLD path on the MAIN domain
-https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
-
-# This rule makes the subdomain show the content of the choose folder
-# WITHOUT changing the URL in the browser bar
+# 1. Show the /choose folder content on the subdomain (Rewrite)
 https://choose.tinytraditionsus.com/* /choose/:splat  200
+
+# 2. Redirect the old path to the new subdomain (Permanent Redirect)
+https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
