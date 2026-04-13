@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YJ6PE1M1RC');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJ6PE1M1RC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YJ6PE1M1RC');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiny Traditions Shop</title>
@@ -98,16 +96,18 @@
 
     <div class="nav-bar">
         <div class="nav-btn-container">
-            <a href="/" class="nav-logo"><img src="../images/logo.png" alt="Tiny Traditions"></a>
+            <a href="https://www.tinytraditionsus.com" class="nav-logo">
+                <img src="https://www.tinytraditionsus.com/images/logo.png" alt="Tiny Traditions">
+            </a>
             <div class="checkout-wrapper">
-    <a href="/form/?method=email" class="order-btn btn-email">
-        Email <span class="cart-total-pill" id="cart-total">$0.00</span>
-        <span class="cart-count-badge">0</span>
-    </a>
-    <a href="/form/?method=wa" class="order-btn btn-wa">
-        💬 WhatsApp <span class="cart-total-pill" id="cart-total-wa">$0.00</span>
-        <span class="cart-count-badge">0</span>
-    </a>
+                <a href="https://www.tinytraditionsus.com/form/?method=email" id="email-btn" class="order-btn btn-email">
+                    Email <span class="cart-total-pill" id="cart-total">$0.00</span>
+                    <span class="cart-count-badge">0</span>
+                </a>
+                <a href="https://www.tinytraditionsus.com/form/?method=wa" id="whatsapp-btn" class="order-btn btn-wa">
+                    💬 WhatsApp <span class="cart-total-pill" id="cart-total-wa">$0.00</span>
+                    <span class="cart-count-badge">0</span>
+                </a>
             </div>
         </div>
     </div>
@@ -131,7 +131,6 @@ const selectedType = params.get('type');
 let globalStock = {}; 
 let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-// --- NEW: Function to update WhatsApp & Email links dynamically ---
 function updateCheckoutLinks() {
     if (cart.length === 0) return;
 
@@ -145,12 +144,10 @@ function updateCheckoutLinks() {
 
     const encodedMsg = encodeURIComponent(message);
     
-    // Update WhatsApp Button
-    const waBtn = document.getElementById('whatsapp-btn'); // Ensure your HTML ID matches this
-    if (waBtn) waBtn.href = `https://wa.me/1234567890?text=${encodedMsg}`; // Put your actual number here
+    const waBtn = document.getElementById('whatsapp-btn');
+    if (waBtn) waBtn.href = `https://wa.me/1234567890?text=${encodedMsg}`; // Update with your actual WhatsApp number
 
-    // Update Email Button
-    const emailBtn = document.getElementById('email-btn'); // Ensure your HTML ID matches this
+    const emailBtn = document.getElementById('email-btn');
     if (emailBtn) emailBtn.href = `mailto:info@tinytraditionsus.com?subject=New Order&body=${encodedMsg}`;
 }
 
@@ -171,12 +168,12 @@ async function loadProducts() {
             const name = r.c[2] ? r.c[2].v : null;
             if (!name) return;
 
-            // Filter logic for subdomain or parameters
             if (selectedType && giftType.toLowerCase() !== selectedType.toLowerCase()) return;
 
             let imgUrl = r.c[1] ? r.c[1].v : "";
             if (imgUrl.includes("drive.google.com")) {
                 const idMatch = imgUrl.match(/[-\w]{25,}/);
+                // Fixed syntax error here with ${idMatch[0]}
                 if (idMatch) imgUrl = `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
             }
 
@@ -189,7 +186,9 @@ async function loadProducts() {
 
             container.innerHTML += `
                 <div class="item-card" data-image="${imgUrl}">
-                    <div class="img-square"><img src="${imgUrl}" onerror="this.src='../images/logo.png'"></div>
+                    <div class="img-square">
+                        <img src="${imgUrl}" onerror="this.src='https://www.tinytraditionsus.com/images/logo.png'">
+                    </div>
                     <div class="right-content">
                         <h3>${name}</h3>
                         <p class="price">$${priceNum.toFixed(2)}</p>
@@ -227,7 +226,6 @@ function updateAllDisplays() {
     if(document.getElementById('cart-total')) document.getElementById('cart-total').textContent = `$${total}`;
     if(document.getElementById('cart-total-wa')) document.getElementById('cart-total-wa').textContent = `$${total}`;
     
-    // Refresh the links every time the display updates
     updateCheckoutLinks();
 }
 
@@ -248,6 +246,11 @@ document.addEventListener('click', (e) => {
         updateAllDisplays();
     }
 });
+
+// Hide lightbox on click
+document.getElementById('lightbox').onclick = function() {
+    this.style.display = 'none';
+};
 
 loadProducts();
 updateAllDisplays();
