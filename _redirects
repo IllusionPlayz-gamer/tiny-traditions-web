@@ -1,5 +1,5 @@
-# This maps the subdomain to your choose folder
-https://choose.tinytraditionsus.com/* /choose/:splat  200
+# This 'masks' the /choose folder so the subdomain works
+https://choose.tinytraditionsus.com/* /choose/:splat 200
 
-# This ensures parameters like ?type=jewelry are passed through
-https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
+# This moves anyone using the old link to the new subdomain
+https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat 301!
