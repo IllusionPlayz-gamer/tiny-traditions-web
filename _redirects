@@ -1,5 +1,5 @@
-# 1. Show the /choose folder content on the subdomain (Rewrite)
+# This maps the subdomain to your choose folder
 https://choose.tinytraditionsus.com/* /choose/:splat  200
 
-# 2. Redirect the old path to the new subdomain (Permanent Redirect)
+# This ensures parameters like ?type=jewelry are passed through
 https://tinytraditionsus.com/choose/* https://choose.tinytraditionsus.com/:splat  301!
