@@ -58,6 +58,22 @@
         100% { transform: rotate(360deg); border-radius: 50%; background-color: #52B2B7; }
     }
 
+    /* --- EMPTY STATE MESSAGE --- */
+    .empty-state {
+        grid-column: 1 / -1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        padding: 80px 20px; color: #52B2B7; text-align: center;
+    }
+    .empty-state h2 {
+        font-size: 2rem; margin-bottom: 15px; color: #52B2B7;
+    }
+    .empty-state p {
+        font-size: 1.1rem; color: #7f8c8d; max-width: 500px;
+    }
+    .empty-state-icon {
+        font-size: 4rem; margin-bottom: 20px; opacity: 0.6;
+    }
+
     /* --- PRODUCT GRID --- */
     .main-content { padding: 20px; max-width: 1300px; margin: auto; }
     .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
@@ -143,11 +159,15 @@ async function loadProducts() {
         const container = document.getElementById('rakhi-container');
         container.innerHTML = ''; 
 
+        let productsFound = 0;
+
         rows.forEach(r => {
             const giftType = r.c[0] ? String(r.c[0].v).trim() : "";
             const name = r.c[2] ? r.c[2].v : null;
             if (!name) return;
             if (selectedType && giftType.toLowerCase() !== selectedType.toLowerCase()) return;
+
+            productsFound++;
 
             // FIXED DRIVE TRANSFORMER
             let imgUrl = r.c[1] ? r.c[1].v : "";
@@ -178,6 +198,17 @@ async function loadProducts() {
                     </div>
                 </div>`;
         });
+
+        /* Show empty state if no products found and category was filtered */
+        if (productsFound === 0 && selectedType) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎁</div>
+                    <h2>No ${selectedType}s here yet!</h2>
+                    <p>Check back soon for new additions to our collection.</p>
+                </div>`;
+        }
+
         setupLightbox();
     } catch (err) { console.error(err); }
 }
