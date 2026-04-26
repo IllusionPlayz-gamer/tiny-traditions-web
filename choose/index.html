@@ -25,8 +25,24 @@
         background: #E6F9FF; border-bottom: 2px solid #c0efff; position: sticky; top: 0; z-index: 1000;
         gap: 12px;
     }
-    .nav-btn-container { width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .nav-logo img { height: 50px; width: auto; }
+    .nav-btn-container { width: 100%; max-width: 1200px; display: flex; flex-direction: row; align-items: center; gap: 10px; justify-content: space-between; }
+    
+    .back-btn {
+        background: none;
+        border: none;
+        color: #52B2B7;
+        cursor: pointer;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+        font-size: 2rem;
+        font-weight: 300;
+    }
+    .back-btn:hover {
+        transform: scale(1.15);
+    }
 
     .checkout-wrapper { display: flex; gap: 10px; justify-content: center; width: 100%; flex-wrap: wrap; }
 
@@ -114,7 +130,7 @@
 
     <div class="nav-bar">
         <div class="nav-btn-container">
-            <a href="/" class="nav-logo"><img src="../images/logo.png" alt="Tiny Traditions"></a>
+            <button class="back-btn" onclick="window.history.back()" title="Go back">←</button>
             <div class="checkout-wrapper">
     <a href="/form/?method=email" class="order-btn btn-email">
         Email <span class="cart-total-pill" id="cart-total">$0.00</span>
